@@ -4,6 +4,7 @@ import {DndContext, rectIntersection} from "@dnd-kit/core";
 import {Flex} from "@chakra-ui/react";
 import AddCard from "./add-card";
 import KanbanLane from "./kanban-lane";
+import {toast} from "react-toastify";
 
 export default function KanbanBoard() {
 
@@ -46,6 +47,24 @@ export default function KanbanBoard() {
             title,
             date: dateFormat()
         }]);
+    }
+
+    const deleteCard = (parent: string, title: string) => {
+        if (parent === "Todo") {
+            const ArrayData = todoItems.filter(item=> item.title !== title)
+            setTodoItems(ArrayData);
+        } else if (parent === "Done") {
+            const ArrayData = doneItems.filter(item=> item.title !== title)
+            setDoneItems(ArrayData);
+        } else if (parent === "Unassigned") {
+            const ArrayData = uItems.filter(item=> item.title !== title)
+            setUItems(ArrayData);
+        } else {
+            const ArrayData = inProgressItems.filter(item=> item.title !== title)
+            setInProgress(ArrayData);
+        }
+
+        toast.success("Success delete Item")
     }
 
     return (
@@ -96,6 +115,7 @@ export default function KanbanBoard() {
                             title={title}
                             items={items}
                             color={color}
+                            deleteItem={deleteCard}
                         />
                     ))}
                 </Flex>

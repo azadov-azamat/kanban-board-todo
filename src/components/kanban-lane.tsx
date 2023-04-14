@@ -4,7 +4,10 @@ import {useDroppable} from "@dnd-kit/core";
 import {Flex, Text} from "@chakra-ui/react";
 import KanbanCard from "./kanban-card";
 
-export default function KanbanLane({title, items, color}: arrayLanesProps) {
+interface KanbanLaneProps extends arrayLanesProps {
+    deleteItem: any
+}
+export default function KanbanLane({title, items, color, deleteItem}: KanbanLaneProps) {
 
     const {setNodeRef} = useDroppable({
         id: title,
@@ -28,12 +31,12 @@ export default function KanbanLane({title, items, color}: arrayLanesProps) {
                 borderRadius="md"
                 boxShadow="md"
                 flexDirection="column"
+                height={'auto'}
                 p={2}
-
             >
                 {items.map(({title: item, date}: arrayDataProps, index: number) => (
 
-                    <KanbanCard title={item} date={date} index={index} parent={title}/>
+                    <KanbanCard title={item} date={date} index={index} parent={title} deleteItem={deleteItem}/>
                 ))}
 
 
